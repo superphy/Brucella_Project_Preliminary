@@ -1,29 +1,28 @@
 import os 
 import gzip
+import Bio 
+from Bio import SeqIO
 
-directories = (os.listdir("refseq/bacteria")) # list of all the folders in the bacteria folder
-internal_directories_two = [] # list of the files in each folder
-internal_directories_one = [] # list of the fna.gz files
+directories = (os.listdir("../refseq/bacteria")) # list of all the folders in the bacteria folder
+internal_directories = [] # list of the files in each folder
+fna_files = [] # list of the fna files
 i=0 
 j=0
 
 for file in directories:
-	location_1 = "refseq/bacteria/"+file
-	internal_directories_two.append(os.listdir(location_1))
+	location_1 = "../refseq/bacteria/"+file
+	internal_directories.append(os.listdir(location_1))
 
-while i< len(internal_directories_two):
-	first_entry = internal_directories_two[i][0]
+while i< len(internal_directories):
+	first_entry = internal_directories[i][0]
 	if first_entry == "MD5SUMS":
-		internal_directories_one.append(internal_directories_two[i][1])
+		fna_files.append(internal_directories[i][1])
 	else:
-		internal_directories_one.append(first_entry)
+		fna_files.append(first_entry)
 	i=i+1
 
-while j <len(internal_directories_two): 
-	location_2 = "refseq/bacteria/"+directories[j]+"/"+internal_directories_one[j]
-	argument = "gunzip " + location_2
-	os.system(argument)
-	print(j)
-	j=j+1
-
-print("done")
+for file in fna_files:
+	for seq_record in SeqIO.parse(file, "fasta"):
+		print(seq_record.id)
+		print(repr(seq_record.seq))
+		print(len(seq_record))
