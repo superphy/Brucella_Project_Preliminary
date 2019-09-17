@@ -9,6 +9,7 @@ internal_directories_locations = []
 fna_files = [] # list of the fna files
 fna_file_location = [] #the location of the fna files
 sequence_data = [] #list of records
+
 i=0 
 j=0
 
@@ -32,14 +33,22 @@ while i< len(internal_directories):
 
 while j < len(fna_file_location):
 	for seq_record in SeqIO.parse(fna_file_location[j], "fasta"):
+		record_id =[]
+		match_a = re.search('NZ\w\w\w\w\w',seq_record.id)
+		if match_a != None:
+			id_short = match_a.group(0)
+		if match_a == None:
+			id_short = "no id found"
+		record_id.append(id_short)
+		
 		description = seq_record.description
-		match = re.search('Brucella\s\w+',description)
-		if match != None:
-			strain = match.group(0)
-		if match == None:
+		match_b = re.search('Brucella\s\w+',description)
+		if match_b != None:
+			strain = match_b.group(0)
+		if match_b == None:
 			strain = "no strain found"	
-		record = [fna_files[j], seq_record.id, strain]
-		sequence_data.append(record)
+	record = [fna_files[j], record_id[0], strain]
+	sequence_data.append(record)
 	j=j+1
 
 with open ('Metadata.csv', 'w') as output:
