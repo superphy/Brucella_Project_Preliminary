@@ -23,7 +23,6 @@ while j <len(internal_directories_two):
 	location_2 = "refseq/bacteria/"+directories[j]+"/"+internal_directories_one[j]
 	argument = "gunzip " + location_2
 	os.system(argument)
-	print(j)
 	j=j+1
 
 print("done")
