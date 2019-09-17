@@ -3,7 +3,7 @@ from Bio import SeqIO
 import re 
 import csv
 
-directories = (os.listdir("../refseq/bacteria")) # list of all the folders in the bacteria folder
+directories = (os.listdir("refseq/bacteria")) # list of all the folders in the bacteria folder
 internal_directories = [] # list of the files in each folder
 internal_directories_locations = [] 
 fna_files = [] # list of the fna files
@@ -13,7 +13,7 @@ i=0
 j=0
 
 for file in directories:
-	location_1 = "../refseq/bacteria/"+file
+	location_1 = "refseq/bacteria/"+file
 	internal_directories.append(os.listdir(location_1))
 	internal_directories_locations.append(location_1)
 
@@ -42,7 +42,7 @@ while j < len(fna_file_location):
 		sequence_data.append(record)
 	j=j+1
 
-with open ('../Metadata.csv', 'w') as output:
+with open ('Metadata.csv', 'w') as output:
 	output_writer = csv.writer(output, delimiter = '	')
 	output.write('File Name, Record ID, Strain\n')
 	for record in sequence_data:
