@@ -1,13 +1,20 @@
+rule all:
+	input:
+		"Metadata.csv"
+
 rule ncbi_data_retrieval:
-	conda: 
-		"../envs/ncbi_file_retrieval.yaml"
 	output:
-		"../.."
+		"refseq/"
 	shell:
 		'ncbi-genome-download --parallel 55 --genus "brucella" bacteria --format fasta'
 
-rule unzip_files: 
+rule metadata_creation:
 	input:
-		"../../python_files/unzip.py" 
-	shell:
-		"python unzip.py"
+		flag = "refseq/",
+		un = "source/unzip.py",
+		met = "source/metadata.py"
+	output:
+		"Metadata.csv"
+	run:
+		shell("python {input.un}")
+		shell("python {input.met}")
