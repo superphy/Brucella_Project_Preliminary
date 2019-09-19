@@ -25,4 +25,4 @@ while j <len(internal_directories_two):
 	os.system(argument)
 	j=j+1
 
-print("done")
+print("done unzipping")

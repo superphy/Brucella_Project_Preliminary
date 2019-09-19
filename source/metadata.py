@@ -47,12 +47,14 @@ while j < len(fna_file_location):
 			strain = match_b.group(0)
 		if match_b == None:
 			strain = "no strain found"	
-	record = [fna_files[j], record_id[0], strain]
+	record = [fna_file_location[j], fna_files[j], record_id[0], strain]
 	sequence_data.append(record)
 	j=j+1
 
 with open ('Metadata.csv', 'w') as output:
 	output_writer = csv.writer(output, delimiter = '	')
-	output.write('File Name, Record ID, Strain\n')
+	output.write('File Location\tFile Name\tRecord ID\tStrain\n')
 	for record in sequence_data:
 		output_writer.writerow(record)
+
+print ("Done creating Metadata.csv")
