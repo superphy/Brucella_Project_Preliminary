@@ -2,6 +2,7 @@ import os
 from Bio import SeqIO
 import re 
 import csv
+import pandas as pd 
 
 directories = (os.listdir("refseq/bacteria")) # list of all the folders in the bacteria folder
 internal_directories = [] # list of the files in each folder
@@ -51,10 +52,7 @@ while j < len(fna_file_location):
 	sequence_data.append(record)
 	j=j+1
 
-with open ('Metadata.csv', 'w') as output:
-	output_writer = csv.writer(output, delimiter = '	')
-	output.write('File Location\tFile Name\tRecord ID\tStrain\n')
-	for record in sequence_data:
-		output_writer.writerow(record)
+df =pd.DataFrame.from_records(sequence_data, columns =['File Location','File Name','Record ID','Strain'])
+df.to_csv('Metadata.csv', index = False)
 
 print ("Done creating Metadata.csv")
