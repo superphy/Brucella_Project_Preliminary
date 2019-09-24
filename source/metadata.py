@@ -35,10 +35,11 @@ while i< len(internal_directories):
 while j < len(fna_file_location):
 	for seq_record in SeqIO.parse(fna_file_location[j], "fasta"):
 		record_id =[]
-		match_a = re.search('NZ\w\w\w\w\w',seq_record.id)
+		match_a = re.search('N\w\w\w\w\w\w',seq_record.id)
 		if match_a != None:
 			id_short = match_a.group(0)
 		if match_a == None:
+			print(seq_record.id)
 			id_short = "no id found"
 		record_id.append(id_short)
 		
