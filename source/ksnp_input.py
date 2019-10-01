@@ -1,16 +1,18 @@
 import os 
 import pandas as pd 
 
-metadata = pd.read_csv('Metadata.csv')
+files = os.listdir("Approved_Sequences/")
 input_list = []
-i=0
+cwd = os.getcwd()
 
-while i<len(metadata):
-	entry = metadata.iloc[i]
-	k_entry = "Approved_Sequences/"+entry[1]+"	"+entry[2]+"\n"
-	input_list.append(k_entry)
-	i=i+1
+
+for file in files:
+	file_location = cwd+"/"+file
+	id_name = file[4:13]
+	entry = file_location+"	"+id_name+'\n'
+	input_list.append(entry)
 
 with open("kSNP3_input.txt", "w") as output:
 	for row in input_list:
 		output.write(str(row))
+
