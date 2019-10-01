@@ -42,12 +42,6 @@ for record in files_w_contigs_under_1000bp:
 	file_location_list.append(output_location)		
 	SeqIO.write(len_500_plus,output_location, "fasta")	
 
-original_files = (os.listdir("Approved_Sequences"))
-
-for file in original_files:
-	new_name = file[0:13]+"_"+file[14:len(file)]
-	sysin = "mv Approved_Sequences/"+file+" Approved_Sequences/"+new_name
-	os.system(sysin)
 
 print ("Done contig length filtering")	
 
