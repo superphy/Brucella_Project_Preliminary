@@ -4,7 +4,7 @@ import pandas as pd
 files = os.listdir("refseq/bacteria")
 fna_files_rm = ""
 fna_files = []
-n = 3
+n=5
 
 # Deletes all the MD5SUMS files
 for file in files:
