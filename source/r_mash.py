@@ -18,5 +18,6 @@ for file in files:
 	fna_files_rm= fna_files_rm+" "+sysin+"/"+os.listdir(sysin)[0]
 
 #runs refseq_masher 
-sysin = "refseq_masher matches "+fna_files_rm+" -o rmash_output.csv /home/ashlynn/Desktop/Fall_2019/random --output-type csv -n "+str(n)
+cwd = os.getcwd() 
+sysin = "refseq_masher matches "+fna_files_rm+" -o rmash_output.csv "+cwd+" --output-type csv -n "+str(n)
 os.system(sysin)
