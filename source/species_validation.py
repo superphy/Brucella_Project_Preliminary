@@ -38,6 +38,7 @@ while i<len(rmash):
 rmash.insert(loc = 2, column='Species', value = fna_sp_col)
 rmash.insert(loc = 3, column= 'Record ID', value = rec_id_col)
 
+
 # comapring the rmash results and the fna species
 while j<len(rmash):
 	sample = rmash['Sample'].iat[j]
@@ -45,12 +46,14 @@ while j<len(rmash):
 	if rmash['Species'].iat[j] == 'Brucella sp':
 		species = rmash['Rmash Species'].iat[j]
 		rmash['Species'].iat[j] = rmash['Rmash Species'].iat[j]
-	# if the fna and rmash species info does not match the entry is deleted from the dataset 
+	# if the fna and rmash species info does not match the file is deleted  
 	if rmash['Species'].iat[j] != rmash['Rmash Species'].iat[j]:
 		sysin = 'rm -rf refseq/bacteria/'+sample[0:15]
 		os.system(sysin)
-		rmash.drop([j], axis = 0, inplace = True)
 	j+=1 
+
+#deleting any entries where the fna and rmash species info does not match
+rmash = rmash[rmash['Species']==rmash['Rmash Species']]
 
 # deleting the Rmash column and creating metadata.csv 
 rmash.drop(['Rmash Species'], axis = 1, inplace = True)
