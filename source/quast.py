@@ -2,18 +2,16 @@ import os
 import pandas as pd 
 i=0
 metadata = pd.read_csv('Metadata.csv')
-fna_file_locations = metadata['File Location'].tolist()
-fna_file_names = metadata['File Name'].tolist()
+samples = metadata['Sample'].tolist()
 
-os.system("mkdir quast_output")
-
-while i< len(fna_file_locations):
-	sys_in = "python quast-5.0.2/quast.py -o quast_output/quast_"+fna_file_names[i]+" "+fna_file_locations[i]
-	os.system(sys_in)
-	if i == len(fna_file_locations)-1:
-		os.system("mkdir quast_output/quast_complete")
+while i< len(samples):
+	sample = samples[i]
+	location = 'refseq/bacteria/'+sample[0:15]+'/'+sample+'.fna'
+	sysin = "python quast-5.0.2/quast.py --silent --fast -o quast_files/quast_"+sample+' '+location
+	os.system(sysin)
+	if i == len(samples)-1:
+		os.system("mkdir quast_files/quast_comp")
 		print("quast complete")
-	i = i+1
-
+	i+=1
 
 
