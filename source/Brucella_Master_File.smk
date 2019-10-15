@@ -1,6 +1,6 @@
 rule all:
 	input:
-		'kSNP3_Output/Logfile.txt'
+		'tree.pdf'
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -100,8 +100,6 @@ rule ksnp:
 		#shell("PATH=$PATH:~/Desktop/Fall_2019/Brucella/kSNP3.1_Linux_package/kSNP3")
 		shell("kSNP3 -in kSNP3_input.txt -outdir kSNP3_Output/ -k 31 -CPU 50 | tee kSNP3_Output/Logfile.txt")
 
-'''
-
 #Building the tree from the Newick file
 rule tree:
 	input:
@@ -111,4 +109,3 @@ rule tree:
 		"tree.pdf"
 	run:
 		shell("python {input.tm}")
-'''
