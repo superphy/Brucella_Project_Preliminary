@@ -6,7 +6,7 @@ contigs_list = []
 contigs_under_1000_list =[]
 j=0
 
-metadata = pd.read_csv('Metadata.csv')
+metadata = pd.read_csv('Metadata-v1.csv')
 
 while j<len(metadata):
 	sample = metadata['Sample'].iat[j]
@@ -21,7 +21,7 @@ while j<len(metadata):
 metadata['Number of Contigs']= contigs_list
 metadata['Number of Contigs <1000 bp'] = contigs_under_1000_list
 
-metadata.to_csv('Metadata.csv', index = False )
+metadata.to_csv('Metadata-v2.csv', index = False )
 
 scatterplot = plt.scatter(contigs_list, contigs_under_1000_list, s=10, c='k')
 plt.xlabel ("Number of Contigs")

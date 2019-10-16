@@ -1,7 +1,7 @@
 import os 
 import pandas as pd 
 i=0
-metadata = pd.read_csv('Metadata.csv')
+metadata = pd.read_csv('Metadata-v1.csv')
 samples = metadata['Sample'].tolist()
 
 while i< len(samples):

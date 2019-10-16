@@ -44,8 +44,10 @@ while j<len(rmash):
 	sample = rmash['Sample'].iat[j]
 	# if the fna species is sp, it takes on the species found by rmash
 	if rmash['Species'].iat[j] == 'Brucella sp':
-		species = rmash['Rmash Species'].iat[j]
-		rmash['Species'].iat[j] = rmash['Rmash Species'].iat[j]
+		if rmash['Max Distance'].iat[j] < 0.001:
+			rmash['Species'].iat[j] = rmash['Rmash Species'].iat[j]
+		else:
+			rmash['Rmash Species'].iat[j] = rmash['Species'].iat[j]
 	# if the fna and rmash species info does not match the file is deleted  
 	if rmash['Species'].iat[j] != rmash['Rmash Species'].iat[j]:
 		sysin = 'rm -rf refseq/bacteria/'+sample[0:15]
@@ -57,4 +59,4 @@ rmash = rmash[rmash['Species']==rmash['Rmash Species']]
 
 # deleting the Rmash column and creating metadata.csv 
 rmash.drop(['Rmash Species'], axis = 1, inplace = True)
-rmash.to_csv('Metadata.csv', index = False)
+rmash.to_csv('Metadata-v1.csv', index = False)

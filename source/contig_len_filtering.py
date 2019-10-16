@@ -4,7 +4,7 @@ from Bio import SeqIO
 i=0
 rename_list =[]
 
-metadata = pd.read_csv('Metadata.csv')
+metadata = pd.read_csv('Metadata-v2.csv')
 
 while i< len(metadata):
 	output_name = metadata['Sample'].iat[i]
@@ -29,7 +29,6 @@ while i< len(metadata):
 		cp = "cp "+location+" Approved_Sequences/"	
 		os.system(cp)
 		mv = "mv Approved_Sequences/"+metadata['Sample'].iat[i]+".fna "+output_location
-		#os.system(mv)
 		rename_list.append(mv)
 		
 	metadata['Sample'].iat[i] = output_name
