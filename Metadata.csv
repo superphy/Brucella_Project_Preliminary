@@ -67,7 +67,7 @@ GCF_002278715_1_ASM227871v1_genomic,Brucella melitensis,NZ_NQVH,7.82718e-05,51.0
 GCF_003993995_1_ASM399399v1_genomic,Brucella melitensis,NZ_JZHG,0.000156838,25.0,0.0
 GCF_000365745_1_Bruc_abor_F3_01-0300_V1_genomic,Brucella abortus,NZ_AQMF,0.0,3.0,0.0
 GCF_006506895_1_ASM650689v1_genomic,Brucella melitensis,NZ_QVYD,0.000314862,24.0,1.0
-GCF_002994775_1_ASM299477v1_genomic,Brucella suis,NZ_NQLX,0.00204936,61.0,5.0
+GCF_002994775_1_ASM299477v1_genomic,Brucella sp,NZ_NQLX,0.00204936,61.0,5.0
 GCF_001715385_1_ASM171538v1_genomic,Brucella abortus,NZ_CP01,0.0,2.0,0.0
 GCF_000740355_1_ASM74035v1_genomic,Brucella melitensis,NZ_CP00,0.000235701,2.0,0.0
 GCF_000371105_1_Bruc_suis_63_198_V1_genomic,Brucella suis,NZ_KB85,7.82718e-05,15.0,0.0
@@ -180,7 +180,7 @@ GCF_006517325_1_ASM651732v1_genomic,Brucella melitensis,NZ_QVZL,0.000156838,40.0
 GCF_000875695_1_ASM87569v1_genomic,Brucella suis,NZ_CP01,0.0,2.0,0.0
 GCF_900446015_1_58932_C01_genomic,Brucella abortus,NZ_UFUE,0.000314862,3.0,0.0
 GCF_000366685_1_Bruc_abor_NI593_V1_genomic,Brucella abortus,NZ_AQMQ,0.0,3.0,0.0
-GCF_000158995_1_ASM15899v1_genomic,Brucella pinnipedialis,NZ_GG66,0.00145543,18.0,6.0
+GCF_000158995_1_ASM15899v1_genomic,Brucella sp,NZ_GG66,0.00145543,18.0,6.0
 GCF_000480095_1_Bruc_meli_02-5863-1_V1_genomic,Brucella melitensis,NZ_KI51,0.0,10.0,0.0
 GCF_000245915_1_Bruc_abor_bv1_NI010_V1_genomic,Brucella abortus,NZ_JH60,0.0,3.0,0.0
 GCF_900236575_1_Bru_genome10_genomic,Brucella melitensis,NZ_LT96,0.000394323,2.0,0.0
@@ -303,7 +303,7 @@ GCF_000478665_1_Bruc_abor_biovar_1_80-1399_V1_genomic,Brucella abortus,NZ_ATHE,0
 GCF_000157795_1_ASM15779v1_genomic,Brucella pinnipedialis,NZ_DS99,0.00112327,89.0,42.0
 GCF_000370325_1_Bruc_abor_877_67_V1_genomic,Brucella abortus,NZ_KB85,0.0,9.0,0.0
 GCF_002191695_1_ASM219169v1_genomic,Brucella melitensis,NZ_CP01,7.82718e-05,2.0,0.0
-GCF_900000005_1_BVF60_genomic,Brucella ceti,NZ_LN99,0.020003,2.0,0.0
+GCF_900000005_1_BVF60_genomic,Brucella sp,NZ_LN99,0.020003,2.0,0.0
 GCF_002191255_1_ASM219125v1_genomic,Brucella melitensis,NZ_CP01,7.82718e-05,2.0,0.0
 GCF_000157815_1_ASM15781v1_genomic,Brucella pinnipedialis,NZ_DS99,0.000235701,19.0,5.0
 GCF_001302495_1_ASM130249v1_genomic,Brucella melitensis,NZ_LKAV,0.000156838,44.0,4.0
@@ -425,7 +425,7 @@ GCF_006505895_1_ASM650589v1_genomic,Brucella melitensis,NZ_QVXQ,0.000156838,25.0
 GCF_000238195_1_ASM23819v1_genomic,Brucella canis,NC_0167,0.000394323,2.0,0.0
 GCF_000413595_1_Bruc_abor_biovar_1_85-1058_V1_genomic,Brucella abortus,NZ_ATHA,7.82718e-05,4.0,0.0
 GCF_006507775_1_ASM650777v1_genomic,Brucella melitensis,NZ_QWAA,0.000235701,30.0,2.0
-GCF_001971625_1_ASM197162v1_genomic,Brucella suis,NZ_CP01,0.0221763,2.0,0.0
+GCF_001971625_1_ASM197162v1_genomic,Brucella sp,NZ_CP01,0.0221763,2.0,0.0
 GCF_000480215_1_Bruc_meli_11-1823-3434_V1_genomic,Brucella melitensis,NZ_AXNC,7.82718e-05,13.0,0.0
 GCF_000370225_1_Bruc_abor_80_101_V1_genomic,Brucella abortus,NZ_KB85,0.000715202,8.0,0.0
 GCF_002266775_1_ASM226677v1_genomic,Brucella melitensis,NZ_NGJP,0.000235701,49.0,5.0
@@ -456,7 +456,7 @@ GCF_000292105_1_ASM29210v2_genomic,Brucella suis,NZ_ALON,0.000394323,271.0,48.0
 GCF_006508035_1_ASM650803v1_genomic,Brucella melitensis,NZ_QWBR,0.000156838,35.0,3.0
 GCF_002204345_1_ASM220434v1_genomic,Brucella melitensis,NZ_NCRI,0.0,43.0,3.0
 GCF_002191635_1_ASM219163v1_genomic,Brucella melitensis,NZ_CP01,0.000235701,2.0,0.0
-GCF_900095155_1_BR141012304v1_genomic,Brucella ceti,NZ_LT60,0.0212513,2.0,0.0
+GCF_900095155_1_BR141012304v1_genomic,Brucella sp,NZ_LT60,0.0212513,2.0,0.0
 GCF_000740335_1_ASM74033v1_genomic,Brucella canis,NZ_CP00,0.0,2.0,0.0
 GCF_000740295_1_ASM74029v1_genomic,Brucella abortus,NZ_CP00,0.0,2.0,0.0
 GCF_000016845_1_ASM1684v1_genomic,Brucella ovis,NC_0095,0.0,2.0,0.0
@@ -652,7 +652,7 @@ GCF_000370665_1_Bruc_meli_F10_06-16_V1_genomic,Brucella melitensis,NZ_KB85,0.0,3
 GCF_000370925_1_Bruc_sp_56_94_V1_genomic,Brucella sp,NZ_KB85,0.0,4.0,0.0
 GCF_000413495_1_Bruc_abor_biovar_1_76-1413_V1_genomic,Brucella abortus,NZ_ATHF,7.82718e-05,4.0,0.0
 GCF_900446035_1_59071_C01_genomic,Brucella melitensis,NZ_UAQR,0.00112327,19.0,1.0
-GCF_001511795_1_BVF965_genomic,Brucella ceti,NZ_LN99,0.020003,2.0,0.0
+GCF_001511795_1_BVF965_genomic,Brucella sp,NZ_LN99,0.020003,2.0,0.0
 GCF_002191855_1_ASM219185v1_genomic,Brucella melitensis,NZ_CP01,7.82718e-05,2.0,0.0
 GCF_004704905_2_ASM470490v2_genomic,Brucella abortus,NZ_SRJJ,0.000235701,23.0,3.0
 GCF_000370805_1_Bruc_meli_UK29_05_V1_genomic,Brucella melitensis,NZ_KB85,0.0,3.0,0.0
