@@ -47,14 +47,14 @@ rule species_val:
 		un = 'refseq/dunzip', 
 		sv = 'source/species_validation.py'
 	output: 
-		'Metadata.csv'
+		'Metadata-v1.csv'
 	run:
 		shell('python {input.sv}')
 
 #Running quast on all of the datasets
 rule quast:
 	input:
-		md = "Metadata.csv", 
+		md = "Metadata-v1.csv", 
 		qu = "source/quast.py"
 	output:
 		"quast_files/quast_comp"
@@ -67,23 +67,25 @@ rule quast_summary:
 		flag = "quast_files/quast_comp",
 		qs = "source/quast_summary.py"
 	output:
-		"Data Quality Visualization.png"
+		"Metadata-v2.csv"
 	run:
 		shell("python {input.qs}")
 
 #Removing any contigs with under 500bp
 rule contig_len_filtering:
 	input:
-		md = "Metadata.csv",
+		md = "Metadata-v2.csv",
 		clf = "source/contig_len_filtering.py"
 	output:
-		"Approved_Sequences/"
+		md = "Metadata.csv",
+		aps = 'Approved_Sequences/'
 	run:
 		shell("python {input.clf}")		
 
 #Generating the input file for kSNP3
 rule ksnp_input:
 	input:
+		#aps = 'Approved_Sequences/',
 		ki = "source/ksnp_input.py"
 	output: 
 		"kSNP3_input.txt"	
@@ -103,6 +105,7 @@ rule ksnp:
 #Building the tree from the Newick file
 rule tree:
 	input:
+		md = 'Metadata.csv',
 		ko = "kSNP3_Output/Logfile.txt",
 		tm = "source/tree_manipulation.py"
 	output:
