@@ -3,12 +3,13 @@ import os
 import ete3
 i=0
 j=0
+k = 1
 ts = ete3.TreeStyle()
 
-metadata = pd.read_csv('../Metadata.csv', dtype="str")
+metadata = pd.read_csv('Metadata.csv', dtype="str")
 meta_dict = {}
-strains = ['Brucella abortus','Brucella canis','Brucella ceti', 'Brucella inopinata', 'Brucella melitensis', 'Brucella microti', 'Brucella neotomae', 'Brucella ovis', 'Brucella pinnipedialis', 'Brucella sp', 'Brucella suis']
-col_dict = {'Brucella abortus': 'OliveDrab','Brucella canis': 'SaddleBrown','Brucella ceti':'MediumTurquoise', 'Brucella inopinata':'Purple', 'Brucella melitensis':'FireBrick', 'Brucella microti':'DarkOrange', 'Brucella neotomae':'Navy', 'Brucella ovis':'Plum', 'Brucella pinnipedialis':'SlateGray', 'Brucella sp':'Gold', 'Brucella suis':'HotPink' }
+strains = ['Brucella suis','Brucella canis','Brucella sp','Brucella neotomae','Brucella pinnipedialis','Brucella ceti', 'Brucella ovis','Brucella abortus','Brucella melitensis']
+col_dict = {'Brucella sp':'#ebc04b', 'Brucella suis':'#f8a4d0','Brucella abortus': '#72a24a','Brucella canis': '#b8642f','Brucella ceti':'#59cf9e', 'Brucella melitensis':'#e8382e', 'Brucella neotomae':'#6c86e2', 'Brucella ovis':'#ba6eb4', 'Brucella pinnipedialis':'#f4792a' }
 
 #Creating a dictionary where the key is the tree id and the value is the strain 
 while i< len(metadata):
@@ -30,6 +31,9 @@ for node in tree.traverse():
 	if node.is_leaf():
 		strain = meta_dict[node.name]
 		node.strain = strain
+	else: 
+		node.name = k
+		k+=1
 
 def strain_id():
 	#For every node in the tree that is not a leaf, if all its decendants are the same strain, let that node be of the same strain
@@ -44,19 +48,24 @@ def strain_id():
 				node.add_feature('strain', strains[0])
 
 strain_id()
-strain_id()
-strain_id()
 
 #adding the approporiate color to each node			
 for node in tree.traverse():
+	if node.name == 12:
+		node.swap_children()
+	if node.name == 20:
+		node.swap_children()
 	if node.strain !='':
-		ns = ete3.NodeStyle() 
+		ns = ete3.NodeStyle()
 		ns['bgcolor'] = col_dict[node.strain]
 		node.set_style(ns)
+	if node.dist > 0.02 :
+		node.dist = node.dist*0.01
+
 
 #building the legend
 while j < len(col_dict):
-	ts.legend.add_face(ete3.TextFace(strains[j]+"		", fgcolor = col_dict[strains[j]], fsize = 206), column = j)
+	ts.legend.add_face(ete3.TextFace(strains[j]+"		", fgcolor = col_dict[strains[j]], fsize = 600), column = j)
 	j=j+1
 
 ts.mode = "c"
