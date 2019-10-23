@@ -25,4 +25,5 @@ while j <len(internal_directories_two):
 	os.system(argument)
 	j=j+1
 
+os.system('mkdir refseq/dunzip')
 print("done unzipping")
