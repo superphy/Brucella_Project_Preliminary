@@ -1,6 +1,7 @@
 rule all:
 	input:
-		'tree.pdf'
+		ab = 'all_brucella.fna',
+		socc = "Strain_Occurances.csv"
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -50,7 +51,7 @@ rule species_val:
 		'Metadata-v1.csv'
 	run:
 		shell('python {input.sv}')
-
+'''
 #Running quast on all of the datasets
 rule quast:
 	input:
@@ -70,7 +71,7 @@ rule quast_summary:
 		"Metadata-v2.csv"
 	run:
 		shell("python {input.qs}")
-
+'''
 #Removing any contigs with under 500bp
 rule contig_len_filtering:
 	input:
@@ -81,6 +82,17 @@ rule contig_len_filtering:
 		aps = 'Approved_Sequences/'
 	run:
 		shell("python {input.clf}")		
+
+#Generates a csv with the breakdown of samples per species in the dataset
+rule strain_occurances: 
+	input: 
+		md = "Metadata.csv",
+		so = "source/strain_occurances.py"
+	output:
+		"Strain_Occurances.csv"
+	run:
+		shell("python {input.so}")
+
 
 #Generating the input file for kSNP3
 rule ksnp_input:
@@ -112,3 +124,17 @@ rule tree:
 		"tree.pdf"
 	run:
 		shell("python {input.tm}")
+
+# Generates a fasta file that is the sum of all fasta files in the dataset
+rule all_brucella:
+	input:
+		'Approved_Sequences/'
+	output:
+		'all_brucella.fna'
+	run:
+		shell('cat {input}*.fna > {output}')
+'''
+all_jellyfish: 
+	input: 
+		'all_brucella.fna'
+'''
