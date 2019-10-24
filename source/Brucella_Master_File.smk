@@ -2,10 +2,9 @@ from multiprocessing import cpu_count
 kmer_size = 31
 cpu = cpu_count() - 6
 
-
 rule all:
 	input:
-		'j_all_brucella.fna'
+		"kmer_counts.csv"
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -97,7 +96,6 @@ rule strain_occurances:
 	run:
 		shell("python {input.so}")
 
-
 #Generating the input file for kSNP3
 rule ksnp_input:
 	input:
@@ -129,7 +127,7 @@ rule tree:
 	run:
 		shell("python {input.tm}")
 
-# Generates a fasta file that is the sum of all fasta files in the dataset
+#Generates a fasta file that is the sum of all fasta files in the dataset
 rule all_brucella:
 	input:
 		'Approved_Sequences/'
@@ -138,6 +136,7 @@ rule all_brucella:
 	run:
 		shell('cat {input}*.fna > {output}')
 
+#Performs the jellyfish count opperation on all_brucella.fna
 rule all_jellyfish_count: 
 	input: 
 		'all_brucella.fna'
@@ -146,10 +145,50 @@ rule all_jellyfish_count:
 	run:
 		shell('jellyfish count -C -m {kmer_size} -s 100M -t {cpu} {input} -o {output} -L 190 -U 501 --out-counter-len 1')
 
+#Performs the jellyfish dump opperation on all_brucella.fna
 rule all_jellyfish_dump: 
 	input: 
 		'j_all_brucella.jf'
 	output:
-		dump = 'j_all_brucella.fna'
+		'j_all_brucella.fna'
 	run:
 		shell('jellyfish dump {input} > {output}')
+
+ids, = glob_wildcards("Approved_Sequences/{id}.fna")
+
+#Performs the jellyfish count opperation on everything in the dataset
+rule count:
+	input:
+		"Approved_Sequences/{id}.fna"
+	output:
+		temp("mer_counts/{id}.jf")
+	shell:
+		"jellyfish count -C -m {kmer_size} -s 100M -t 2 {input} -o {output} --out-counter-len 1"
+
+#Performs the jellyfish dump opperation on everything in the dataset
+rule dump:
+	input:
+		"mer_counts/{id}.jf"
+	output:
+		"mer_counts/{id}.fna", 
+	shell:
+		"jellyfish dump {input} > {output}"
+
+#Makes count/dump actually work
+rule jellyfish_complete:
+	input:
+		expand("mer_counts/{id}.fna", id = ids)
+	output:
+		temp('jellyfish_flag.txt')
+	run:
+		shell('touch jellyfish_flag.txt')
+
+rule kmer_dataframe:
+	input:
+		jf = 'jellyfish_flag.txt',
+		c_df = 'source/count_to_df.py'
+	output:
+		fmc = 'filtered_mer_counts/',
+		kc = 'kmer_counts.csv'
+	run:
+		shell('python {input.c_df}')
