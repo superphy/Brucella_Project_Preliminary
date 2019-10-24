@@ -1,7 +1,11 @@
+from multiprocessing import cpu_count
+kmer_size = 31
+cpu = cpu_count() - 6
+
+
 rule all:
 	input:
-		ab = 'all_brucella.fna',
-		socc = "Strain_Occurances.csv"
+		'j_all_brucella.fna'
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -112,7 +116,7 @@ rule ksnp:
 		"kSNP3_Output/Logfile.txt"
 	run:
 		#shell("PATH=$PATH:~/Desktop/Fall_2019/Brucella/kSNP3.1_Linux_package/kSNP3")
-		shell("kSNP3 -in kSNP3_input.txt -outdir kSNP3_Output/ -k 31 -CPU 50 | tee kSNP3_Output/Logfile.txt")
+		shell("kSNP3 -in kSNP3_input.txt -outdir kSNP3_Output/ -k 31 -CPU {cpu} | tee kSNP3_Output/Logfile.txt")
 
 #Building the tree from the Newick file
 rule tree:
@@ -133,8 +137,19 @@ rule all_brucella:
 		'all_brucella.fna'
 	run:
 		shell('cat {input}*.fna > {output}')
-'''
-all_jellyfish: 
+
+rule all_jellyfish_count: 
 	input: 
 		'all_brucella.fna'
-'''
+	output:
+		temp('j_all_brucella.jf')
+	run:
+		shell('jellyfish count -C -m {kmer_size} -s 100M -t {cpu} {input} -o {output} -L 190 -U 501 --out-counter-len 1')
+
+rule all_jellyfish_dump: 
+	input: 
+		'j_all_brucella.jf'
+	output:
+		dump = 'j_all_brucella.fna'
+	run:
+		shell('jellyfish dump {input} > {output}')
