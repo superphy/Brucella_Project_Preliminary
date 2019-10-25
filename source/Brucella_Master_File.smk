@@ -194,6 +194,7 @@ rule kmer_dataframe:
 	run:
 		shell('python {input.c_df}')
 
+#Analyzes the occurances of a specific kmer in each species
 rule ranks:
 	input:
 		ra = 'source/ranks.py', 
