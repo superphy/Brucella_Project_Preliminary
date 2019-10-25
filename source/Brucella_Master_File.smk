@@ -4,7 +4,7 @@ cpu = cpu_count() - 6
 
 rule all:
 	input:
-		"kmer_counts.csv"
+		"Ranks.csv"
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -183,6 +183,7 @@ rule jellyfish_complete:
 	run:
 		shell('touch jellyfish_flag.txt')
 
+#Creates kmer_counts.csv 
 rule kmer_dataframe:
 	input:
 		jf = 'jellyfish_flag.txt',
@@ -192,3 +193,14 @@ rule kmer_dataframe:
 		kc = 'kmer_counts.csv'
 	run:
 		shell('python {input.c_df}')
+
+rule ranks:
+	input:
+		ra = 'source/ranks.py', 
+		md = 'Metadata.csv', 
+		so = 'Strain_Occurances.csv',
+		kc = 'kmer_counts.csv'
+	output:
+		'Ranks.csv'
+	run:
+		shell('python {input.ra}')
