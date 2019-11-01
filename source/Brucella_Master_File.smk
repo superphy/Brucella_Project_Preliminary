@@ -4,7 +4,7 @@ cpu = cpu_count() - 6
 
 rule all:
 	input:
-		"Ranks.csv"
+		'Kmer_Locations.csv'
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -205,3 +205,26 @@ rule ranks:
 		'Ranks.csv'
 	run:
 		shell('python {input.ra}')
+
+rule rank_hist:
+	input:
+		ranks = 'Ranks.csv',
+		so = 'Strain_Occurances.csv',
+		tk = 'source/rank_histograms.py'
+	output:
+		'Rank_Histograms/'
+	run:
+		shell('python {input.tk}')
+
+rule kmer_locations:
+	input:
+		cm = 'source/chrom_mapping.py', 
+		md = 'Metadata.csv',
+		ranks = 'Ranks.csv',
+		so = "Strain_Occurances.csv"
+	output:
+		klv = 'Kmer_Location_Visualizations/', 
+		kl = 'Kmer_Locations.csv'
+	run:
+		shell('python {input.cm}')
+
