@@ -17,6 +17,13 @@ col_dict = {'Brucella sp':'#ebc04b', 'Brucella suis':'#f8a4d0','Brucella abortus
 meta_ref = metadata[metadata['Number of Contigs'] == 2] # only complete sequences (a.k.a 2 contigs)
 meta_ref = meta_ref.drop_duplicates(subset = 'Species', keep='first') # one of each species
 
+c1_index, c1_rank, c2_index, c2_rank = {}, {}, {}, {}
+for kmer in tkmers.index: # for each kmer in the dataframe
+		c1_index[kmer]=0
+		c1_rank[kmer]=0
+		c2_index[kmer]=0
+		c2_rank[kmer]=0
+
 #Choosing and locating a refrence genome 
 def refrence_location(species):
 	ref_row = meta_ref[meta_ref['Species']==species]
@@ -61,33 +68,68 @@ def find_needles(species):
 
 with ProcessPoolExecutor(len(species)) as ppe:
 	for species, c1_index, c1_rank, c2_index, c2_rank in ppe.map(find_needles, species):
-		bins_c1 = range(0,max(c1_index),1000)
-		bins_c2 = range(0,max(c2_index),1000)
-		
-		fig, (ax1, ax2) = plt.subplots(1,2)
+		fig, (ax1, ax2) = plt.subplots(1,2, sharey = True)
 		fig.suptitle(species)
-		
-		df_c1_rank = pd.DataFrame(c1_rank)
+
+		c1_dict, c2_dict = {}, {}
+		c1_length = len(max(c1_index)-min(c1_index))
+		c1_index_padded = range(min(c1_index), max(c1_index))
+		c1_rank_padded = np.zeros(c1_length)
+
+		for i in range(0,len(c1_rank)):
+			index = c1_index[i]
+			c1_rank_padded[index]=c1_rank[i]
+
+		c2_length = len(max(c2_index)-min(c2_index))
+		c2_index_padded = range(min(c2_index), max(c2_index))
+		c2_rank_padded = np.zeros(c2_length)
+
+		for i in range(0,len(c2_rank)):
+			index = c2_index[i]
+			c2_rank_padded[index]=c2_rank[i]
+'''
+		for i in range(min(c1_index), max(c1_index), 1):
+			c1_dict[i]=0
+		for i in range(min(c2_index), max(c2_index), 1):
+			c2_dict[i]=0
+		for i in range(0,len(c1_rank)):
+			c1_dict[c1_index[i]]=c1_rank[i]
+		for i in range(0,len(c2_rank)):
+			c2_dict[c2_index[i]]=c2_rank[i]
+	
+		df_c1_rank = pd.DataFrame(c1_dict.values())
 		roll_c1 = df_c1_rank.rolling(window=1000).mean()
-		df_c2_rank = pd.DataFrame(c2_rank)
+		df_c2_rank = pd.DataFrame(c2_dict.values())
 		roll_c2 = df_c2_rank.rolling(window=1000).mean()
 		
+		c1_keys = []
+		for key in c1_dict.keys():
+			c1_keys.append(key)
 		
-		ax1.plot(c1_index, df_c1_rank, color= '#cbc9cc', linewidth=0.25, ls = ':')
-		ax1.plot(c1_index, roll_c1, color=col_dict[species], linewidth=1.5)
+		c2_keys = []
+		for key in c2_dict.keys():
+			c2_keys.append(key)
+'''		
+		df_c1_rank = pd.DataFrame(c1_rank_padded)
+		roll_c1 = df_c1_rank.rolling(window=1000).mean()
+		df_c2_rank = pd.DataFrame(c2_rank_padded)
+		roll_c2 = df_c2_rank.rolling(window=1000).mean()
+		
+		ax1.plot(c1_index_padded, c1_rank_padded, color= '#cbc9cc', linewidth=0.25, ls = ':')
+		ax1.plot(c1_index_padded, roll_c1, color=col_dict[species], linewidth=1.5)
+		#bins_c1 = range(0,max(c1_index),1000)
 		#ax1.hist(c1_index, bins = bins_c1,color=col_dict[species])
 		#ax1.scatter(c1_index, c1_rank, color=col_dict[species], marker='.')
 		#ax1.set_ylim([-1,1])
-		ax1.xlabel('Location')
 		ax1.set_title('Chromosome 1')
 		
 		
-		ax2.plot(c2_index, df_c2_rank, color='#cbc9cc', linewidth=0.25, ls = ':')
-		ax2.plot(c2_index, roll_c2, color=col_dict[species], linewidth=1.5)
+		ax2.plot(c2_index_padded, c2_rank_padded, color='#cbc9cc', linewidth=0.25, ls = ':')
+		ax2.plot(c2_index_padded, roll_c2, color=col_dict[species], linewidth=1.5)
+		#bins_c2 = range(0,max(c2_index),1000)
 		#ax2.hist(c2_index, bins = bins_c2,color=col_dict[species])
 		#ax2.scatter(c2_index, c2_rank, color=col_dict[species], marker='.')
 		#ax2.set_ylim([-1,1])
-		ax2.xlabel('Location')
 		ax2.set_title('Chromosome 2')
 		
 		plt.show()
