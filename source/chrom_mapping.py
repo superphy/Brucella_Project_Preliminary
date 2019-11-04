@@ -15,6 +15,7 @@ species = strain_occurances.index.values
 col_dict = {'Brucella sp':'#ebc04b', 'Brucella suis':'#f8a4d0','Brucella abortus': '#72a24a','Brucella canis': '#b8642f','Brucella ceti':'#59cf9e', 'Brucella melitensis':'#e8382e', 'Brucella neotomae':'#6c86e2', 'Brucella ovis':'#ba6eb4', 'Brucella pinnipedialis':'#f4792a' }
 meta_ref = metadata[metadata['Number of Contigs'] == 2] # only complete sequences (a.k.a 2 contigs)
 meta_ref = meta_ref.drop_duplicates(subset = 'Species', keep='first') # one of each species
+complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
 
 c1_dict, c2_dict = {}, {}
 for kmer in ranks.index: 
@@ -39,13 +40,19 @@ def haystacks(species):
 	chromosome2 = sequence[1]
 	return(chromosome1, chromosome2)
 
+def reverse_complement(kmer):
+	return ''.join([complement[base] for base in kmer[::-1]])
+
 #Creates the needles (all kmers)
 def needles(species):
 	kmers = ranks.index.values
 	rank = ranks[species+' RANK']
 	aho = ahocorasick.Automaton()
 	for i in range(0,len(kmers)):
-		aho.add_word(kmers[i],(kmers[i], rank[kmers[i]]))
+		kmer = kmers[i]
+		rev_c = reverse_complement(kmer)
+		aho.add_word(kmer,(kmer,rank[kmer]))
+		aho.add_word(rev_c,(kmer,rank[kmer]))
 	aho.make_automaton()
 	return(aho)
 
