@@ -4,7 +4,7 @@ cpu = cpu_count() - 6
 
 rule all:
 	input:
-		'Kmer_Locations.csv'
+		'Kover_Data/Kmer_Matrix.tsv'
 
 #Aquiring the data from the ncbi database
 rule ncbi_data_retrieval:
@@ -186,7 +186,7 @@ rule jellyfish_complete:
 #Creates kmer_counts.csv 
 rule kmer_dataframe:
 	input:
-		jf = 'jellyfish_flag.txt',
+		#jf = 'jellyfish_flag.txt',
 		c_df = 'source/count_to_df.py'
 	output:
 		fmc = 'filtered_mer_counts/',
@@ -194,13 +194,14 @@ rule kmer_dataframe:
 	run:
 		shell('python {input.c_df}')
 
+
 #Analyzes the occurances of a specific kmer in each species
 rule ranks:
 	input:
 		ra = 'source/ranks.py', 
 		md = 'Metadata.csv', 
 		so = 'Strain_Occurances.csv',
-		kc = 'kmer_counts.csv'
+		#kc = 'kmer_counts.csv'
 	output:
 		'Ranks.csv'
 	run:
@@ -228,3 +229,35 @@ rule kmer_locations:
 	run:
 		shell('python {input.cm}')
 
+rule kover_data:
+	input:
+		og_meta ='Metadata.csv',
+		strain_occ = 'Strain_Occurances.csv',
+		kcounts = 'kmer_counts.csv',
+		ki = 'source/kover_inputs.py'
+	output:
+		kif = 'Kover_Data/',
+		kmatrix = 'Kover_Data/Kmer_Matrix.tsv'
+	run:
+		shell('python {input.ki}')
+'''
+ids1, = glob_wildcards("Kover_Data/Kover_{id1}_Metadata.tsv")
+
+rule kover_create:
+	input:
+		"Kover_Data/Kover_{id1}_Metadata.tsv"
+	output:
+		"Kover_Data/{id1}_dataset.kover"
+	shell:
+		#export PATH=/home/ashlynn/Desktop/Fall_2019/Brucella/kover/bin/:$PATH
+		'kover dataset create from-tsv --genomic-data Kover_Data/Kmer_Matrix.tsv --phenotype-description "{wildcards.id1} vs non {wildcards.id1}" --phenotype-metadata {input} --output {output} --progress '		
+
+#Makes count/dump actually work
+rule kover_complete:
+	input:
+		expand("Kover_Data/{id1}_dataset.kover", id1 = ids1)
+	output:
+		temp('kover_data_flag.txt')
+	run:
+		shell('touch kover_data_flag.txt')
+'''
