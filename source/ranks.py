@@ -1,13 +1,18 @@
 import pandas as pd 
 import re, sys
+import scipy.stats as stats
+import time 
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
 
 if __name__ == '__main__':
 	
+	start_time = time.time()
 	metadata = pd.read_csv("Metadata.csv", index_col = 'Sample' )
 	strain_occurances = pd.read_csv("Strain_Occurances.csv")
 	kmer_count = pd.read_csv("kmer_counts.csv", index_col = 'Unnamed: 0')
+	
+	print('Dataframes Loaded')
 
 	species_occ_dict = {} # key = species, value = # of samples of that species
 	for i in range(0,len(strain_occurances)):
@@ -18,16 +23,19 @@ if __name__ == '__main__':
 		species_gen_dict[metadata.index.values[j]] = metadata["Species"].iat[j]
 
 	rows = []
-	kmer_dict = {}
+	rank_dict = {}
+	p_dict = {}
 	for k in range(0,len(kmer_count)): # for each kmer in the dataframe
 		row = kmer_count.iloc[k]
 		rows.append(row)
-		kmer_dict[row.name] = 0
+		rank_dict[row.name] = 0
+		p_dict[row.name] = 0
+
+	print('Dictionaries Created')
 
 	cpu_count = cpu_count()
 	rank_cpu = len(set(species_occ_dict))
 	sp_match_cpu = cpu_count - rank_cpu - 5
-	total = len(kmer_dict)
 
 	def sp_match(row): # for a given kmer
 		row , species = row
@@ -45,19 +53,38 @@ if __name__ == '__main__':
 		return(kmer, sp_present, nsp_present)
 
 	def rank(species):
+		for key in rank_dict: 
+			rank_dict[key] = 0
+		for key in p_dict: 
+			p_dict[key] = 0
 		divisor_sp = species_occ_dict[species] # number of samples with a species matching the input species
 		divisor_nsp = len(kmer_count.columns) - divisor_sp # number of samples with a species not matching the input species
 		zip_list = zip(rows,[species for i in rows])
+		count = 0 
+		inter_count = 0
+		print(species, inter_count)
 		with ProcessPoolExecutor(sp_match_cpu) as ppe:
 			for kmer, sp_present, nsp_present in ppe.map(sp_match, zip_list):
 				rank = (sp_present/divisor_sp)-(nsp_present/divisor_nsp)
-				kmer_dict[kmer]=rank
-		return(kmer_dict, species)
+				odds_ratio, p_value = stats.fisher_exact([[sp_present, nsp_present],[divisor_sp, divisor_nsp]])
+				p_dict[kmer]=p_value
+				rank_dict[kmer]=rank
+				count+=1
+				if count == 3000:
+					inter_count+=count
+					count=0
+					print(species, inter_count)
+				if inter_count == len(rows):
+					print(species, 'complete')
+		return(rank_dict,p_dict, species)
 
-	df = pd.DataFrame(index = kmer_count.index.values , columns = set(species_occ_dict))
+	df = pd.DataFrame(index = kmer_count.index.values)
 
 	with ProcessPoolExecutor(rank_cpu) as ppe:
-		for kmer_dict, species in ppe.map(rank, set(species_occ_dict)):
-			df[species] = kmer_dict.values()
-
+		for rank_dict, p_dict, species in ppe.map(rank, set(species_occ_dict)):
+			df[species+' RANK'] = rank_dict.values()
+			df[species+' P_VAL'] = p_dict.values()
+	
+	end_time = time.time()
+	print('Time Elapsed: ', end_time-start_time)
 	df.to_csv('Ranks.csv')
