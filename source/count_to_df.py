@@ -35,7 +35,7 @@ if __name__ == '__main__':
 			kmer_seq = record.seq
 			kmer_seq = kmer_seq._get_seq_str_and_check_alphabet(kmer_seq)
 			if kmer_seq in kmer_dict:
-				col_list[kmer_dict[kmer_seq]] = np.uint8(record.id)
+				col_list[kmer_dict[kmer_seq]] = np.uint8(1)
 				new_fasta.append(record)
 		SeqIO.write(new_fasta, "filtered_mer_counts/"+genome,"fasta")
 		return(genome, col_list)
