@@ -31,4 +31,4 @@ rule kover_learn:
 	output:
 		'../Kover_Data/{id1}/results.json'
 	run:
-		'(kover learn scm --dataset ../Kover_Data/{wildcards.id1}/{wildcards.id1}_dataset.kover --split {wildcards.id1} --model-type conjunction disjunction --p 0.1 1.0 10.0 --max-rules 5 --hp-choice cv --n-cpu 2 --progress --output-dir ../Kover_Data/{wildcards.id1}/ )'
+		shell('kover learn scm --dataset ../Kover_Data/{wildcards.id1}/{wildcards.id1}_dataset.kover --split {wildcards.id1} --model-type conjunction disjunction --p 0.1 1.0 10.0 --max-rules 5 --hp-choice cv --n-cpu 2 --progress --output-dir ../Kover_Data/{wildcards.id1}/')
