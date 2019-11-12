@@ -74,7 +74,7 @@ if __name__ == '__main__':
 					inter_count+=count
 					count=0
 					print(species, inter_count)
-				if inter_count == len(rows):
+				if inter_count+count == len(rows):
 					print(species, 'complete')
 		return(rank_dict,p_dict, species)
 
@@ -85,6 +85,7 @@ if __name__ == '__main__':
 			df[species+' RANK'] = rank_dict.values()
 			df[species+' P_VAL'] = p_dict.values()
 	
+	df.to_csv('Ranks.csv')
 	end_time = time.time()
 	print('Time Elapsed: ', end_time-start_time)
-	df.to_csv('Ranks.csv')
+	
