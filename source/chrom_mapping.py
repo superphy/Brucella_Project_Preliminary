@@ -40,6 +40,7 @@ def haystacks(species):
 	chromosome2 = sequence[1]
 	return(chromosome1, chromosome2)
 
+#Generates the reverse complement of a given kmer
 def reverse_complement(kmer):
 	return ''.join([complement[base] for base in kmer[::-1]])
 
