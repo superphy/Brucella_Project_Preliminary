@@ -1,0 +1,71 @@
+Kover Learning Report
+=====================
+
+Running time: 0:00:45.659899
+
+Configuration:
+--------------
+authorized_rules: 
+bound_delta: 0.05
+bound_max_genome_size: None
+dataset: ../Kover_Data/Brucella_ovis/Brucella_ovis_dataset.kover
+hp_choice: cv
+kmer_blacklist: None
+max_equiv_rules: 10000
+max_rules: 10
+model_type: ['conjunction', 'disjunction']
+n_cpu: 1
+output_dir: ../Kover_Data/Brucella_ovis/
+p: [0.1, 0.316, 0.562, 1.0, 1.778, 3.162, 10.0, 999999.0]
+progress: True
+random_seed: None
+split: Brucella_ovis
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /home/ashlynn/Desktop/Fall_2019/Brucella/Kover_Data/Brucella_ovis/Brucella_ovis_dataset.kover
+Dataset UUID: f1f5d09e-0571-11ea-a2b0-54bf6470a342
+Phenotype: Brucella_Ovis Vs Non Brucella_Ovis
+Genomic data type: tsv
+Split: Brucella_ovis
+Number of genomes used for training: 461 (Group 0.0: 448, Group 1.0: 13)
+Number of genomes used for testing: 230 (Group 0.0: 226, Group 1.0: 4)
+Number of k-mers: 338406
+
+Hyperparameter Values:
+----------------------
+Selection strategy: 5-fold cross-validation (score = 0.00000)
+Model type: conjunction
+p: 1.000000
+Maximum number of rules: 1
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.0
+Sensitivity: 1.0
+Specificity: 1.0
+Precision: 1.0
+Recall: 1.0
+F1 Score: 1.0
+True Positives: 13.0
+True Negatives: 448.0
+False Positives: 0.0
+False Negatives: 0.0
+
+Metrics (testing data)
+----------------------
+Error Rate: 0.00435
+Sensitivity: 0.75
+Specificity: 1.0
+Precision: 1.0
+Recall: 0.75
+F1 Score: 0.85714
+True Positives: 3.0
+True Negatives: 226.0
+False Positives: 0.0
+False Negatives: 1.0
+
+Model (Conjunction - 1 rules):
+------------------------------
+Presence(AGGGTGTGGGGCATGCCATTGCTGATGCAGC) [Importance: 1.00, 31 equivalent rules]
