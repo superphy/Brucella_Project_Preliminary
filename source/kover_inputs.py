@@ -11,17 +11,20 @@ for name in og_meta.index:
 
 kover_meta = pd.DataFrame(index = index, columns = strain_occ.index, data=np.zeros((len(index),len(strain_occ.index))) )
 
+#Generates a large metadata folder with each column representing a species
 for i in range(0, len(og_meta.index)):
 	file = index[i]
 	species = og_meta['Species'].iloc[i]
 	kover_meta.loc[file,species]=1
 
+#Parses the large metadata folder to be one file per species
 for i in range(0, len(strain_occ.index)):
 	strain = strain_occ.index[i]
 	kover_single_meta = kover_meta[strain]
 	under_strain = strain.replace(' ', '_')
-	kover_single_meta.to_csv('Kover_Data/Kover_'+under_strain+'_Metadata.tsv', sep='\t', header=False)
+	kover_single_meta.to_csv('../Kover_Data/Kover_'+under_strain+'_Metadata.tsv', sep='\t', header=False)
 
+#Created the kmer matrix file 
 kcounts.rename(columns={'Unnamed: 0':'kmers'}, inplace=True )
 kcounts.astype(bool)
-kcounts.to_csv('kmt.tsv', sep='\t', index=False)
+kcounts.to_csv('../Kover_Data/Kmer_Matrix.tsv', sep='\t', index=False)
