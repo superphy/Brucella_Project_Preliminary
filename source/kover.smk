@@ -31,4 +31,21 @@ rule kover_learn:
 	output:
 		'../Kover_Data/{id1}/results.json'
 	run:
-		shell('kover learn scm --dataset ../Kover_Data/{wildcards.id1}/{wildcards.id1}_dataset.kover --split {wildcards.id1} --model-type conjunction disjunction --p 0.1 1.0 10.0 --max-rules 5 --hp-choice cv --n-cpu 2 --progress --output-dir ../Kover_Data/{wildcards.id1}/')
+		shell('kover learn scm --dataset {input.ds} --split {wildcards.id1}  --progress --output-dir ../Kover_Data/{wildcards.id1}/')
+
+'''
+TEST
+
+Create: 
+	kover dataset create from-tsv --genomic-data Kmer_Matrix.tsv --phenotype-description "test" --phenotype-metadata Kover_Brucella_abortus_Metadata.tsv --output test_dataset.kover --progress 
+Split:
+	kover dataset split --dataset test_dataset.kover --id test --train-size 0.666 --folds 5 --random-seed 72 --progress
+Learn:
+	kover learn scm --dataset test_dataset.kover --split test --progress 
+	
+* Kover tests folder with matrix, metadata and dataset all together runs correctly - also works from one directory above & with specified output dir 
+* WORKED - kover learn scm --dataset ../Kover_Data/Brucella_abortus/Brucella_abortus_dataset.kover --split Brucella_abortus --progress --output-dir ../Kover_Data/Brucella_abortus/
+	run directly 
+* FAILED - kover learn scm --dataset ../Kover_Data/Brucella_pinnipedialis/Brucella_pinnipedialis_dataset.kover --split Brucella_pinnipedialis  --progress --output-dir ../Kover_Data/Brucella_pinnipedialis/ 
+	run through snakemake & directly
+	'''
