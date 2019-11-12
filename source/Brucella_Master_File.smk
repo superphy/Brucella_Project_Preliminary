@@ -201,12 +201,13 @@ rule ranks:
 		ra = 'source/ranks.py', 
 		md = 'Metadata.csv', 
 		so = 'Strain_Occurances.csv',
-		#kc = 'kmer_counts.csv'
+		kc = 'kmer_counts.csv'
 	output:
 		'Ranks.csv'
 	run:
 		shell('python {input.ra}')
 
+#Generates histograms to visualize the rank distribution of each species
 rule rank_hist:
 	input:
 		ranks = 'Ranks.csv',
@@ -217,6 +218,7 @@ rule rank_hist:
 	run:
 		shell('python {input.tk}')
 
+#Locates each kmer on a refrence chromosome 
 rule kmer_locations:
 	input:
 		cm = 'source/chrom_mapping.py', 
@@ -229,6 +231,7 @@ rule kmer_locations:
 	run:
 		shell('python {input.cm}')
 
+#Creates a folder of kover input data (the kmer matrix and metadata files for each species)
 rule kover_data:
 	input:
 		og_meta ='Metadata.csv',
@@ -261,3 +264,4 @@ rule kover_complete:
 	run:
 		shell('touch kover_data_flag.txt')
 '''
+ 
