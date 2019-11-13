@@ -1,7 +1,7 @@
 Kover Learning Report
 =====================
 
-Running time: 0:00:49.574723
+Running time: 0:02:50.769737
 
 Configuration:
 --------------
@@ -24,8 +24,8 @@ verbose: False
 
 Data summary:
 -------------
-Dataset file: /home/ashlynn/Desktop/Fall_2019/Brucella/Kover_Data/Brucella_melitensis/Brucella_melitensis_dataset.kover
-Dataset UUID: e804a380-0571-11ea-8899-54bf6470a342
+Dataset file: /Users/Ashlynn/Desktop/Brucella/Kover_Data/Brucella_melitensis/Brucella_melitensis_dataset.kover
+Dataset UUID: f8e35642-0666-11ea-be56-b8e8560152d4
 Phenotype: Brucella_Melitensis Vs Non Brucella_Melitensis
 Genomic data type: tsv
 Split: Brucella_melitensis

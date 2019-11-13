@@ -1,7 +1,7 @@
 Kover Learning Report
 =====================
 
-Running time: 0:00:45.659899
+Running time: 0:02:37.337642
 
 Configuration:
 --------------
@@ -24,8 +24,8 @@ verbose: False
 
 Data summary:
 -------------
-Dataset file: /home/ashlynn/Desktop/Fall_2019/Brucella/Kover_Data/Brucella_ovis/Brucella_ovis_dataset.kover
-Dataset UUID: f1f5d09e-0571-11ea-a2b0-54bf6470a342
+Dataset file: /Users/Ashlynn/Desktop/Brucella/Kover_Data/Brucella_ovis/Brucella_ovis_dataset.kover
+Dataset UUID: 414f8e0f-0668-11ea-816f-b8e8560152d4
 Phenotype: Brucella_Ovis Vs Non Brucella_Ovis
 Genomic data type: tsv
 Split: Brucella_ovis
