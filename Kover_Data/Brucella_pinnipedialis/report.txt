@@ -1,0 +1,73 @@
+Kover Learning Report
+=====================
+
+Running time: 0:01:12.105169
+
+Configuration:
+--------------
+authorized_rules: 
+bound_delta: 0.05
+bound_max_genome_size: 3592978
+dataset: ../Kover_Data/Brucella_pinnipedialis/Brucella_pinnipedialis_dataset.kover
+hp_choice: bound
+kmer_blacklist: None
+max_equiv_rules: 10000
+max_rules: 5
+model_type: ['conjunction', 'disjunction']
+n_cpu: 1
+output_dir: ../Kover_Data/Brucella_pinnipedialis/
+p: [0.1, 0.316, 0.562, 1.0, 1.778, 3.162, 10.0, 999999.0]
+progress: True
+random_seed: None
+split: Brucella_pinnipedialis
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /Users/Ashlynn/Desktop/Brucella/Kover_Data/Brucella_pinnipedialis/Brucella_pinnipedialis_dataset.kover
+Dataset UUID: da19a8eb-0668-11ea-9618-b8e8560152d4
+Phenotype: Brucella_Pinnipedialis Vs Non Brucella_Pinnipedialis
+Genomic data type: tsv
+Split: Brucella_pinnipedialis
+Number of genomes used for training: 461 (Group 0.0: 456, Group 1.0: 5)
+Number of genomes used for testing: 230 (Group 0.0: 229, Group 1.0: 1)
+Number of k-mers: 338406
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.10963)
+Model type: conjunction
+p: 10.000000
+Maximum number of rules: 2
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.00434
+Sensitivity: 0.8
+Specificity: 0.99781
+Precision: 0.8
+Recall: 0.8
+F1 Score: 0.8
+True Positives: 4.0
+True Negatives: 455.0
+False Positives: 1.0
+False Negatives: 1.0
+
+Metrics (testing data)
+----------------------
+Error Rate: 0.00435
+Sensitivity: 0.0
+Specificity: 1.0
+Precision: -inf
+Recall: 0.0
+F1 Score: -inf
+True Positives: 0.0
+True Negatives: 229.0
+False Positives: 0.0
+False Negatives: 1.0
+
+Model (Conjunction - 2 rules):
+------------------------------
+Presence(CAATCTCAAGGCAACGGCTCAGATCAAGGCC) [Importance: 0.92, 3 equivalent rules]
+AND
+Presence(GCCCCCCCTCGAATTTGCCGCGTGAAACAAC) [Importance: 0.66, 1 equivalent rules]

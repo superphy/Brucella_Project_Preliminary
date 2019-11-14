@@ -1,0 +1,73 @@
+Kover Learning Report
+=====================
+
+Running time: 0:01:09.460299
+
+Configuration:
+--------------
+authorized_rules: 
+bound_delta: 0.05
+bound_max_genome_size: 3314031
+dataset: ../Kover_Data/Brucella_canis/Brucella_canis_dataset.kover
+hp_choice: bound
+kmer_blacklist: None
+max_equiv_rules: 10000
+max_rules: 5
+model_type: ['conjunction', 'disjunction']
+n_cpu: 1
+output_dir: ../Kover_Data/Brucella_canis/
+p: [0.1, 0.316, 0.562, 1.0, 1.778, 3.162, 10.0, 999999.0]
+progress: True
+random_seed: None
+split: Brucella_canis
+verbose: False
+
+Data summary:
+-------------
+Dataset file: /Users/Ashlynn/Desktop/Brucella/Kover_Data/Brucella_canis/Brucella_canis_dataset.kover
+Dataset UUID: 95863ef5-0669-11ea-9d5b-b8e8560152d4
+Phenotype: Brucella_Canis Vs Non Brucella_Canis
+Genomic data type: tsv
+Split: Brucella_canis
+Number of genomes used for training: 461 (Group 0.0: 441, Group 1.0: 20)
+Number of genomes used for testing: 230 (Group 0.0: 222, Group 1.0: 8)
+Number of k-mers: 338406
+
+Hyperparameter Values:
+----------------------
+Selection strategy: bound selection (score = 0.09441)
+Model type: conjunction
+p: 3.162000
+Maximum number of rules: 2
+
+Metrics (training data)
+-----------------------
+Error Rate: 0.0
+Sensitivity: 1.0
+Specificity: 1.0
+Precision: 1.0
+Recall: 1.0
+F1 Score: 1.0
+True Positives: 20.0
+True Negatives: 441.0
+False Positives: 0.0
+False Negatives: 0.0
+
+Metrics (testing data)
+----------------------
+Error Rate: 0.0
+Sensitivity: 1.0
+Specificity: 1.0
+Precision: 1.0
+Recall: 1.0
+F1 Score: 1.0
+True Positives: 8.0
+True Negatives: 222.0
+False Positives: 0.0
+False Negatives: 0.0
+
+Model (Conjunction - 2 rules):
+------------------------------
+Presence(GTTCGGTTCCTATCTGCCGTGGGTGTAGGAA) [Importance: 0.92, 93 equivalent rules]
+AND
+Absence(CGTTCGTTTTCACTGCGCCATGATGCGCCGA) [Importance: 0.75, 20 equivalent rules]
