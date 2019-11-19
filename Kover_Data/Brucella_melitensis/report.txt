@@ -1,18 +1,18 @@
 Kover Learning Report
 =====================
 
-Running time: 0:00:49.574723
+Running time: 0:01:11.743280
 
 Configuration:
 --------------
 authorized_rules: 
 bound_delta: 0.05
-bound_max_genome_size: None
+bound_max_genome_size: 3348893
 dataset: ../Kover_Data/Brucella_melitensis/Brucella_melitensis_dataset.kover
-hp_choice: cv
+hp_choice: bound
 kmer_blacklist: None
 max_equiv_rules: 10000
-max_rules: 10
+max_rules: 5
 model_type: ['conjunction', 'disjunction']
 n_cpu: 1
 output_dir: ../Kover_Data/Brucella_melitensis/
@@ -24,8 +24,8 @@ verbose: False
 
 Data summary:
 -------------
-Dataset file: /home/ashlynn/Desktop/Fall_2019/Brucella/Kover_Data/Brucella_melitensis/Brucella_melitensis_dataset.kover
-Dataset UUID: e804a380-0571-11ea-8899-54bf6470a342
+Dataset file: /Users/Ashlynn/Desktop/Brucella/Kover_Data/Brucella_melitensis/Brucella_melitensis_dataset.kover
+Dataset UUID: f8e35642-0666-11ea-be56-b8e8560152d4
 Phenotype: Brucella_Melitensis Vs Non Brucella_Melitensis
 Genomic data type: tsv
 Split: Brucella_melitensis
@@ -35,7 +35,7 @@ Number of k-mers: 338406
 
 Hyperparameter Values:
 ----------------------
-Selection strategy: 5-fold cross-validation (score = 0.00000)
+Selection strategy: bound selection (score = 0.06133)
 Model type: conjunction
 p: 1.000000
 Maximum number of rules: 1
