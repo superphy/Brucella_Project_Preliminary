@@ -31,7 +31,7 @@ rule kover_learn:
 	output:
 		'../Kover_Data/{id1}/results.json'
 	run:
-		shell('kover learn scm --dataset {input.ds} --split {wildcards.id1}  --progress --output-dir ../Kover_Data/{wildcards.id1}/')
+		shell('kover learn scm --dataset {input.ds} --split {wildcards.id1} --hp-choice bound --max-rules 5  --progress --output-dir ../Kover_Data/{wildcards.id1}/')
 
 '''
 TEST
