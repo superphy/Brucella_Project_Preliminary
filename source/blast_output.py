@@ -8,20 +8,22 @@ with open(blast_output_path) as fh:
 	blast_df = skbio.io.read(fh, format="blast+6",into=pd.DataFrame,default_columns=True)
 
 #blast_df = blast_df.set_index('qseqid')
-
+blast_df = blast_df[blast_df['pident']==100]
 #blast_df.to_csv('../Blast_Output.csv')
+
+
 sseqids = list(blast_df['sseqid'].unique())
 
-def min_max(BME_start, BME_end, BR_start, BR_end):
-	primer_min = min(BME_start, BR_start)
-	if primer_min == BME_start:
-		amp_start = max(BME_start, BME_end) 
-		amp_end = min(BR_start, BR_end)
-	if primer_min == BR_start:
-		amp_start = max(BR_start, BR_end) 
-		amp_end = min(BME_start, BME_end)
+def min_max(start_a, end_a, start_b, end_b):
+	primer_min = min(start_a, start_b)
+	if primer_min == start_a:
+		amp_start = max(start_a, end_a) 
+		amp_end = min(start_b, end_b)
+	if primer_min == start_b:
+		amp_start = max(start_b, end_b) 
+		amp_end = min(start_a, end_a)
 	return(amp_start, amp_end)
-
+'''
 def primer_one(df, sseqid):
 	BMEI1427 = df[df['qstart']==1.0] 
 	BR1080f = df[df['qstart']==51.0]
@@ -62,33 +64,92 @@ def primer_two(df, sseqid):
 		return(p2_amps)
 	else:
 		return(np.inf)
+'''
+
+def primer_one(df, sseqid):
+	BMEI1426 = df[df['qstart']==1.0] 
+	start_26 = BMEI1426['sstart']
+	end_26 = BMEI1427['send']
+	BMEI1427 = df[df['qstart']==51.0]
+	start_27 = BMEI1426['sstart']
+	end_27 = BMEI1427['send']
+	amp_start, amp_end = min_max(start_26, end_26, start_27, end_27)
+	amplicon = amp_end - amp_start
+	return(amplicon)
+
+def primer_two(df, sseqid):
+	#multicases!! 
+	x=0
+	
+def primer_three(df, sseqid):
+	BMEI1688 = df[df['qstart']==1.0] 
+	start_88 = BMEI1688['sstart']
+	end_88 = BMEI1687['send']
+	BMEI1687 = df[df['qstart']==51.0]
+	start_87 = BMEI1688['sstart']
+	end_87 = BMEI1687['send']
+	amp_start, amp_end = min_max(start_88, end_88, start_87, end_87)
+	amplicon = amp_end - amp_start	
+	return(amplicon)
+
+def primer_four(df, sseqid):
+	BMEI0205f = df[df['qstart']==1.0] 
+	start_f = BMEI0205f['sstart']
+	end_f = BMEI0205r['send']
+	BMEI0205r = df[df['qstart']==51.0]
+	start_r = BMEI0205f['sstart']
+	end_r = BMEI0205r['send']
+	amp_start, amp_end = min_max(start_f, end_f, start_r, end_r)
+	amplicon = amp_end - amp_start
+	return(amplicon)
 
 def idk(sseqid):
 	unique_df = blast_df[blast_df['sseqid']==sseqid] # df containing only hits from a single contig
-	primer_one_df = unique_df[unique_df['qseqid']=='BMEI1427-BR1080f'] # subset of unique_df with only primer 1 data
-	primer_two_df = unique_df[unique_df['qseqid']=='BR1080r-BMEI1688'] # subset of unique_df with only primer 2 data
-	
+	primer_one_df = unique_df[unique_df['qseqid']=='BMEI1426-BMEI1427'] # subset of unique_df with only primer 1 data
+	primer_two_df = unique_df[unique_df['qseqid']=='BR1080f-BR1080r'] # subset of unique_df with only primer 2 data
+	primer_three_df = unique_df[unique_df['qseqid']=='BMEI1688-BMEI1687'] # subset of unique_df with only primer 3 data
+	primer_four_df = unique_df[unique_df['qseqid']=='BMEI0205f-BMEI0205r'] # subset of unique_df with only primer 4 data
+	#return(sseqid, len(primer_one_df), len(primer_two_df), len(primer_three_df), len(primer_four_df))
+
 	if len(primer_one_df) >1:
 		p1_amps = primer_one(primer_one_df, sseqid)
 	else:
 		p1_amps = np.inf
 
-	if len(primer_two_df)>1:
-		p2_amps = primer_two(primer_two_df, sseqid)
-	else:
-		p2_amps = np.inf
+	#if len(primer_two_df)>1:
+	#	p2_amps = primer_two(primer_two_df, sseqid)
+	#else:
+	#	p2_amps = np.inf
 	
-	p1_p2 = [p1_amps, p2_amps]
-	return(sseqid, p1_p2)
+	if len(primer_three_df) >1:
+		p3_amps = primer_three(primer_three_df, sseqid)
+	else:
+		p3_amps = np.inf
+
+	if len(primer_four_df)>1:
+		p4_amps = primer_four(primer_four_df, sseqid)
+	else:
+		p4_amps = np.inf	
+
+	return(sseqid, p1_amps, p3_amps, p4_amps)
+	
 
 df = pd.DataFrame(index = ['BMEI1427-BR1080f', 'BR1080r-BMEI1688'])
 for seqid in sseqids:
-	sseqid, p1_p2 = idk(seqid)
-	df[sseqid] = p1_p2
+	sseqid, L1, L3, L4 = idk(seqid)
+	print(sseqid)
+	print('Primer 1 Amp: ', L1)
+	print('Primer 3 Amp: ', L3)
+	print('Primer 4 Amp: ', L4)
+	print('\n')
 
-df = df.dropna(axis='columns', how='all')
+
+#df = df.dropna(axis='columns', how='all')
 #print(df)
-df.to_csv('test.csv')
+#df.to_csv('test.csv')
+
+
+
 
 '''
 sseqids = list(blast_df['sseqid'].unique())
