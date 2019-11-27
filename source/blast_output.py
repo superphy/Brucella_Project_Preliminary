@@ -1,10 +1,12 @@
 import skbio.io
 import pandas as pd
 import numpy as np 
+pd.options.mode.use_inf_as_na = True
 
 blast_output_path = '../blast/blast_search_output.tsv'
 with open(blast_output_path) as fh:
 	blast_df = skbio.io.read(fh, format="blast+6",into=pd.DataFrame,default_columns=True)
+
 #blast_df = blast_df.set_index('qseqid')
 
 #blast_df.to_csv('../Blast_Output.csv')
@@ -36,11 +38,16 @@ def primer_one(df, sseqid):
 				p1_amps.append(amplicon)
 		return(p1_amps)
 	else:
-		return('No Results for Primer One')
+		return(np.inf)
 
 def primer_two(df, sseqid):
 	BR1080r = df[df['qstart']==1.0]
 	BMEI1688 = df[df['qstart']==51.0]
+	#print(sseqid)
+	#print(BR1080r)
+	#print('\n')
+	#print(BMEI1688)
+	#print('\n')
 	p2_amps = []
 	if len(BR1080r) >= 1 and len(BMEI1688) >=1:
 		for i, BR_row in BR1080r.iterrows():
@@ -54,27 +61,34 @@ def primer_two(df, sseqid):
 				p2_amps.append(amplicon)
 		return(p2_amps)
 	else:
-		return('No Results for Primer Two')
+		return(np.inf)
 
 def idk(sseqid):
 	unique_df = blast_df[blast_df['sseqid']==sseqid] # df containing only hits from a single contig
 	primer_one_df = unique_df[unique_df['qseqid']=='BMEI1427-BR1080f'] # subset of unique_df with only primer 1 data
 	primer_two_df = unique_df[unique_df['qseqid']=='BR1080r-BMEI1688'] # subset of unique_df with only primer 2 data
-	p1_p2 = [np.inf(), np.inf()]
+	
 	if len(primer_one_df) >1:
 		p1_amps = primer_one(primer_one_df, sseqid)
-		p1_p2[0] == p1_amps
+	else:
+		p1_amps = np.inf
+
 	if len(primer_two_df)>1:
 		p2_amps = primer_two(primer_two_df, sseqid)
-		p1_p2[1] == p2_amps
+	else:
+		p2_amps = np.inf
+	
+	p1_p2 = [p1_amps, p2_amps]
 	return(sseqid, p1_p2)
 
-df = pd.DataFrame(index = ['Primer One', 'Primer Two'])
+df = pd.DataFrame(index = ['BMEI1427-BR1080f', 'BR1080r-BMEI1688'])
 for seqid in sseqids:
-	ssequid, p1_p2 = idk(seqid)
+	sseqid, p1_p2 = idk(seqid)
 	df[sseqid] = p1_p2
 
-print(df)
+df = df.dropna(axis='columns', how='all')
+#print(df)
+df.to_csv('test.csv')
 
 '''
 sseqids = list(blast_df['sseqid'].unique())
