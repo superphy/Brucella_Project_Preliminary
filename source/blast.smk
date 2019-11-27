@@ -21,11 +21,15 @@ rule blast_database:
 
 rule blast_search:
 	input:
-		query_file = 'query_file.fna',
+		query_file = 'queery_file.fna',
 		blast_db = 'blast/suis_master.fna.ndb'
 	output:
 		serch_out = 'blast/blast_search_output.tsv'
 	run:
-		shell('blastn -db blast/suis_master.fna -query {input.query_file} -dust no -word_size 20 -evalue 1000 -outfmt 6 -out {output}')
+		shell('blastn -db blast/suis_master.fna -query {input.query_file} -dust no -word_size 7 -evalue 100 -outfmt 6 -out {output}')
+
+
+
+
 
 # -outfmt 6 -out {output}
