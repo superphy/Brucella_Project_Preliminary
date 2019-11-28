@@ -1,6 +1,6 @@
 rule all:
 	input:
-		'blast/blast_search_output.tsv'
+		'Blast_Primer_Matching.csv'
 
 rule blast_master_fasta:
 	input:
@@ -28,8 +28,11 @@ rule blast_search:
 	run:
 		shell('blastn -db blast/suis_master.fna -query {input.query_file} -dust no -word_size 7 -evalue 100 -outfmt 6 -out {output}')
 
-
-
-
-
-# -outfmt 6 -out {output}
+rule blast_output:
+	input:
+		blast_search_output = 'blast/blast_search_output.tsv',
+		bo = 'source/blast_output.py'
+	output:
+		'Blast_Primer_Matching.csv'
+	run:
+		shell('python {input.bo}')
