@@ -1,5 +1,6 @@
 import pandas as pd 
 import numpy as np
+import matplotlib.pyplot as plt
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
 pd.options.mode.use_inf_as_na = True
@@ -8,6 +9,7 @@ ranks = pd.read_csv('../Ranks.csv', index_col = 0)
 k_loc = pd.read_csv('../Kmer_Locations.csv', index_col = 0)
 strain_occ = pd.read_csv('../Strain_Occurances.csv', index_col = 0)
 strains = strain_occ.index.values
+col_dict = {'Brucella sp':'#ebc04b', 'Brucella suis':'#f8a4d0','Brucella abortus': '#72a24a','Brucella canis': '#b8642f','Brucella ceti':'#59cf9e', 'Brucella melitensis':'#e8382e', 'Brucella neotomae':'#6c86e2', 'Brucella ovis':'#ba6eb4', 'Brucella pinnipedialis':'#f4792a' }
 chroms = {'C1':'C2', 'C2':'C1'}
 
 def rolling(rank_df):
@@ -48,23 +50,34 @@ def top_row(strain, chrom):
 	roll_mean= rolling(df['Ranks'])
 	df['Rolling Avg'] = roll_mean
 	df = df.sort_values(by=['Rolling Avg'], ascending=False).head(1)
-	return(df)
+	return(df, loc_dict)
 
 def intermediate(strain):
-	c1_top_row = top_row(strain, 'C1')
-	c2_top_row = top_row(strain, 'C2')
+	c1_top_row, c1_loc_dict = top_row(strain, 'C1')
+	c2_top_row, c2_loc_dict = top_row(strain, 'C2')
 
 	max_ra = max(float(c1_top_row['Rolling Avg']), float(c2_top_row['Rolling Avg']))
+	
 	if max_ra == float(c1_top_row['Rolling Avg']):
 		out_col = [c1_top_row['Kmer'].to_string(index = False), 'C1',int(c1_top_row['Location'])-200, int(c1_top_row['Location']), float(c1_top_row['Ranks']), float(c1_top_row['Rolling Avg'])]
-		return(strain, out_col)
+		locations = range(int(c1_top_row['Location'])-200, int(c1_top_row['Location']))
+		ranks = [c1_loc_dict[loc] for loc in locations]
+		return(strain, out_col, locations, ranks)
+	
 	if max_ra == float(c2_top_row['Rolling Avg']):
 		out_col = [c2_top_row['Kmer'].to_string(index = False), 'C2', int(c2_top_row['Location'])-200, int(c2_top_row['Location']), float(c2_top_row['Ranks']), float(c2_top_row['Rolling Avg'])]
-		return(strain, out_col)
+		locations = range(int(c1_top_row['Location'])-200, int(c1_top_row['Location']))
+		ranks = [c1_loc_dict[loc] for loc in locations]
+		return(strain, out_col, locations, ranks)
 
 final_df = pd.DataFrame(index = ['Kmer', 'Chromosome','Start Location', 'End Location', 'Rank', 'Rolling Avg'])
 with ProcessPoolExecutor(cpu_count()-10) as ppe:
-	for strain, column in ppe.map(intermediate, strains):
+	for strain, column, locations, ranks in ppe.map(intermediate, strains):
 		final_df[strain] = column
+		plt.plot(ranks, locations, color=col_dict[strain])
+		plt.xlabel('Location')
+		plt.ylabel('Rank')
+		plt.title('Rank Distribution for Top 200 bp of '+strain)
+		plt.show()
 
 final_df.to_csv('Top_200_bp.csv')
