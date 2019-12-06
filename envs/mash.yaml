@@ -1,0 +1,48 @@
+name: Mash
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - blas=1.0=mkl
+  - bz2file=0.98=py36_1
+  - ca-certificates=2019.9.11=hecc5488_0
+  - certifi=2019.9.11=py36_0
+  - click=7.0=py36_0
+  - intel-openmp=2019.4=243
+  - libffi=3.2.1=he1b5a44_1006
+  - libgcc=7.2.0=h69d50b8_2
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libgfortran-ng=7.3.0=hdf63c60_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - mash=1.1=0
+  - mkl=2019.4=243
+  - mkl-service=2.3.0=py36he904b0f_0
+  - mkl_fft=1.0.14=py36ha843d7b_0
+  - mkl_random=1.1.0=py36hd6b4f25_0
+  - ncurses=6.1=hf484d3e_1002
+  - numpy=1.17.2=py36haad9e8e_0
+  - numpy-base=1.17.2=py36hde5b4d6_0
+  - openssl=1.1.1c=h516909a_0
+  - pandas=0.25.1=py36hb3f55d8_0
+  - pip=19.2.3=py36_0
+  - pyahocorasick=1.4.0=py36h14c3975_0
+  - python=3.6.7=h357f687_1005
+  - python-dateutil=2.8.0=py36_0
+  - pytz=2019.2=py_0
+  - pyyaml=5.1.2=py36h7b6447c_0
+  - readline=8.0=hf8c457e_0
+  - refseq_masher=0.1.0=py36_0
+  - screed=1.0.1=py_0
+  - setuptools=41.2.0=py36_0
+  - six=1.12.0=py36_0
+  - sourmash=1.0=py36_0
+  - sqlite=3.29.0=hcee41ef_1
+  - tk=8.6.9=hed695b0_1003
+  - wheel=0.33.6=py36_0
+  - xz=5.2.4=h14c3975_1001
+  - yaml=0.1.7=had09818_2
+  - zlib=1.2.11=h516909a_1006
+prefix: /home/ashlynn/miniconda3/envs/Mash
+
