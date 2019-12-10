@@ -61,9 +61,14 @@ def top_row(strain, chrom, soa):
 
 	roll_mean= rolling(df['Ranks'])
 	df['Rolling Avg'] = roll_mean # adding rolling average column to df 
-	df = df.sort_values(by=['Rolling Avg'], ascending=False).head(1) # returns the row in the df with the largest rolling average value
-
-	return(df, loc_dict)
+	
+	if soa =='self':
+		df = df.sort_values(by=['Rolling Avg'], ascending=False).head(1) # returns the row in the df with the largest rolling average value
+		return(df, loc_dict)
+	if soa == 'alt':
+		#MAKE SURE THIS DOES WHAT U THINK IT DOES!
+		df = df.sort_values(by=['Rolling Avg'], ascending=True).head(1) # returns the row in the df with the smallest rolling average value
+		return(df, loc_dict)
 
 #top_row('Brucella abortus','C1', 'self')
 #top_row('Brucella suis','C2', 'alt')
